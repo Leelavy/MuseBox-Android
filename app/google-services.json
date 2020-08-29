@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "335782920234",
+    "firebase_url": "https://muse-box-android.firebaseio.com",
+    "project_id": "muse-box-android",
+    "storage_bucket": "muse-box-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335782920234:android:d1fa5e1e35238742130353",
+        "android_client_info": {
+          "package_name": "com.lilo.museboxapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335782920234-b1e5bms8t0dnd982pql50tt2rinfan78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgo-M3-ql_p2cYkwtePLldILXzJdxLIS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335782920234-b1e5bms8t0dnd982pql50tt2rinfan78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
