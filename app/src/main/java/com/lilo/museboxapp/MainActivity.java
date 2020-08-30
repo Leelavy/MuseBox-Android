@@ -22,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
         //setting background, animation and button to login
         backgroundImageView = findViewById(R.id.main_background_image_view);
+
         exploreBtn = findViewById(R.id.main_explore_button);
-        animateBackground();
+        Utils.animateBackground(backgroundImageView);
 
         exploreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,10 +32,6 @@ public class MainActivity extends AppCompatActivity {
                 toLoginPage();
             }
         });
-    }
-
-    private void animateBackground(){
-        backgroundImageView.animate().scaleX((float) 1.5).scaleY((float) 1.5).setDuration(20000).start();
     }
 
     private void toLoginPage(){
