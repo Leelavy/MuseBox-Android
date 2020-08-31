@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.lilo.museboxapp.R;
 import com.lilo.museboxapp.model.Post;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostDetailsFragment extends Fragment {
 
@@ -23,6 +26,8 @@ public class PostDetailsFragment extends Fragment {
     TextView username;
     TextView postContent;
     TextView contact;
+    ImageView postImg;
+    CircleImageView profilePic;
 
     public PostDetailsFragment() {
         // Required empty public constructor
@@ -37,13 +42,23 @@ public class PostDetailsFragment extends Fragment {
         username = view.findViewById(R.id.post_details_fragment_username_text_view);
         postContent = view.findViewById(R.id.post_details_fragment_post_content_text_view);
         contact = view.findViewById(R.id.post_details_fragment_contact_text_view);
+        postImg = view.findViewById(R.id.post_details_fragment_post_image_view);
+        profilePic = view.findViewById(R.id.post_details_fragment_profile_image_view);
 
         post = PostDetailsFragmentArgs.fromBundle(getArguments()).getPost();
         if (post != null) {
             postTitle.setText(post.postTitle);
             username.setText(post.username);
             postContent.setText(post.postContent);
-            contact.setText(post.contact);
+            contact.setText("Contact: " + post.contact);
+            if (post.postImgUrl != null && post.userProfileImageUrl != null){
+                Picasso.get().load(post.postImgUrl).noPlaceholder().into(postImg);
+                Picasso.get().load(post.userProfileImageUrl).noPlaceholder().into(profilePic);
+            }
+            else {
+                postImg.setImageResource(R.drawable.profile_pic_placeholder);
+                profilePic.setImageResource(R.drawable.profile_pic_placeholder);
+            }
         }
 
         ImageButton closeBtn = view.findViewById(R.id.post_details_fragment_close_btn);
