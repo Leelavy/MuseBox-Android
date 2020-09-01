@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.lilo.museboxapp.R;
 import com.lilo.museboxapp.model.Model;
+import com.lilo.museboxapp.model.ModelFirebase;
 import com.lilo.museboxapp.model.Post;
 import com.lilo.museboxapp.model.StoreModel;
 import com.lilo.museboxapp.model.User;
@@ -90,7 +91,7 @@ public class PostDetailsFragment extends Fragment {
             editPostBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "Edit button clicked", Toast.LENGTH_SHORT).show();
+                    toEditPostPage(post);
                 }
             });
 
@@ -99,7 +100,6 @@ public class PostDetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     deletePost(post);
-                    Toast.makeText(getContext(), "Delete button clicked", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -107,13 +107,28 @@ public class PostDetailsFragment extends Fragment {
         return view;
     }
 
+    private void toEditPostPage(Post post) {
+        NavController navCtrl = Navigation.findNavController(getActivity(), R.id.home_nav_host);
+        PostDetailsFragmentDirections.ActionPostDetailsFragmentToEditPostFragment directions = PostDetailsFragmentDirections.actionPostDetailsFragmentToEditPostFragment(post);
+        navCtrl.navigate(directions);
+    }
+
     void deletePost(Post postToDelete){
 
         Model.instance.deletePost(postToDelete, new Model.Listener<Boolean>() {
             @Override
             public void onComplete(Boolean data) {
-                NavController navCtrl = Navigation.findNavController(view);
-                navCtrl.navigateUp();
+                StoreModel.deleteImage(post.postImgUrl, new StoreModel.Listener() {
+                    @Override
+                    public void onSuccess(String url) {
+                        NavController navCtrl = Navigation.findNavController(view);
+                        navCtrl.navigateUp();
+                    }
+                    @Override
+                    public void onFail() {
+                        Snackbar.make(view, "Failed to create post and save it in databases", Snackbar.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

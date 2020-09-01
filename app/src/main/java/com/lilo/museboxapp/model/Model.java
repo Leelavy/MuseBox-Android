@@ -33,6 +33,18 @@ public class Model {
         }.execute();
     }
 
+//    @SuppressLint("StaticFieldLeak")
+//    public void updatePost(final Post post, Listener<Boolean> listener) {
+//        ModelFirebase.updatePost(post, listener);
+//        new AsyncTask<String,String,String>(){
+//            @Override
+//            protected String doInBackground(String... strings) {
+//                AppLocalDb.db.postDao().insertAllPosts(post);
+//                return "";
+//            }
+//        }.execute();
+//    }
+
     @SuppressLint("StaticFieldLeak")
     public void deletePost(final Post post, Listener<Boolean> listener){
         ModelFirebase.deletePost(post,listener);

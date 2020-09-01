@@ -73,6 +73,11 @@ public class ModelFirebase {
         });
     }
 
+//    public static void updatePost(Post post, Model.Listener<Boolean> listener) {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection(POST_COLLECTION).document(post.getPostId()).set(toJson(post)).
+//    }
+
     public static void deletePost(Post post, final Model.Listener<Boolean> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(POST_COLLECTION).document(post.getPostId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,5 +159,6 @@ public class ModelFirebase {
             }
         });
     }
+
 
 }

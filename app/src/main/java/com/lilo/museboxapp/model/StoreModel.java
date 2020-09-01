@@ -2,26 +2,14 @@ package com.lilo.museboxapp.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.lilo.museboxapp.activities.RegisterPageActivity;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class StoreModel {
 
@@ -57,6 +45,25 @@ public class StoreModel {
                         listener.onSuccess(downloadUrl.toString());
                     }
                 });
+            }
+        });
+    }
+
+    public static void deleteImage(String imageUrl, final Listener listener) {
+
+        Date date = new Date();
+        FirebaseStorage storageReference = FirebaseStorage.getInstance();
+        final StorageReference imageRef = storageReference.getReferenceFromUrl(imageUrl);
+
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                listener.onSuccess("");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onFail();
             }
         });
     }
