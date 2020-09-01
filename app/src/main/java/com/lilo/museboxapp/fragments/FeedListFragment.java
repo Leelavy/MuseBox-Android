@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lilo.museboxapp.R;
+import com.lilo.museboxapp.model.ModelFirebase;
 import com.lilo.museboxapp.model.Post;
 import com.lilo.museboxapp.model.Model;
 import com.squareup.picasso.Picasso;

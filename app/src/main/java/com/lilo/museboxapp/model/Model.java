@@ -4,8 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import com.lilo.museboxapp.MuseBoxApplication;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
@@ -32,18 +36,6 @@ public class Model {
             }
         }.execute();
     }
-
-//    @SuppressLint("StaticFieldLeak")
-//    public void updatePost(final Post post, Listener<Boolean> listener) {
-//        ModelFirebase.updatePost(post, listener);
-//        new AsyncTask<String,String,String>(){
-//            @Override
-//            protected String doInBackground(String... strings) {
-//                AppLocalDb.db.postDao().insertAllPosts(post);
-//                return "";
-//            }
-//        }.execute();
-//    }
 
     @SuppressLint("StaticFieldLeak")
     public void deletePost(final Post post, Listener<Boolean> listener){
@@ -80,8 +72,28 @@ public class Model {
                     @Override
                     protected void onPostExecute(String s) {
                         super.onPostExecute(s);
+                        cleanLocalDb();
                         if (listener!=null)
                             listener.onComplete();
+                    }
+                }.execute("");
+            }
+        });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void cleanLocalDb(){
+        ModelFirebase.getDeletedPostsId(new Listener<List<String>>() {
+            @Override
+            public void onComplete(final List<String> data) {
+                new AsyncTask<String,String,String>() {
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        for (String id: data){
+                            Log.d("TAG", "deleted id: " + id);
+                            AppLocalDb.db.postDao().deleteByPostId(id);
+                        }
+                        return "";
                     }
                 }.execute("");
             }
@@ -92,11 +104,6 @@ public class Model {
         LiveData<List<Post>> liveData = AppLocalDb.db.postDao().getAllPosts();
         refreshPostsList(null);
         return liveData;
-    }
-
-
-    public void update(Post post){
-
     }
 
     public void updateUserProfile(String username, String info, String profileImgUrl, Listener<Boolean> listener) {

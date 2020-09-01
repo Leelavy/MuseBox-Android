@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,19 +74,21 @@ public class ModelFirebase {
         });
     }
 
-//    public static void updatePost(Post post, Model.Listener<Boolean> listener) {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection(POST_COLLECTION).document(post.getPostId()).set(toJson(post)).
-//    }
-
-    public static void deletePost(Post post, final Model.Listener<Boolean> listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static void deletePost(final Post post, final Model.Listener<Boolean> listener) {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(POST_COLLECTION).document(post.getPostId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (listener!=null){
-                    listener.onComplete(task.isSuccessful());
-                }
+                Map<String,Object> deleted = new HashMap<>();
+                deleted.put("postId", post.postId);
+                db.collection("deleted").document(post.getPostId()).set(deleted).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (listener!=null){
+                            listener.onComplete(task.isSuccessful());
+                        }
+                    }
+                });
             }
         });
     }
@@ -160,5 +163,22 @@ public class ModelFirebase {
         });
     }
 
+    public static void getDeletedPostsId(final Model.Listener<List<String>> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("deleted").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<String> deletedPostsIds = null;
+                if (task.isSuccessful()){
+                    deletedPostsIds = new LinkedList<String>();
+                    for(QueryDocumentSnapshot doc : task.getResult()){
+                        String deleted = (String) doc.getData().get("postId");
+                        deletedPostsIds.add(deleted);
+                    }
+                }
+                listener.onComplete(deletedPostsIds);
+            }
+        });
+    }
 
 }
