@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class EditPostFragment extends Fragment {
     EditText contentInput;
     EditText contactInput;
     Button saveChangesBtn;
+    ImageButton closeBtn;
     ImageView postImageView;
     ProgressBar progressBar;
 
@@ -69,6 +71,15 @@ public class EditPostFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 chooseImageFromGallery();
+            }
+        });
+
+        closeBtn = view.findViewById(R.id.edit_post_fragment_close_btn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navCtrl = Navigation.findNavController(view);
+                navCtrl.navigateUp();
             }
         });
 

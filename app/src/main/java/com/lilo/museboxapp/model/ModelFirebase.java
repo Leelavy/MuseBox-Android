@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -19,6 +20,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static com.google.firebase.firestore.Query.Direction.ASCENDING;
+import static com.google.firebase.firestore.Query.Direction.DESCENDING;
 
 public class ModelFirebase {
     final static String POST_COLLECTION = "posts";
@@ -40,24 +44,6 @@ public class ModelFirebase {
                 }
                 listener.onComplete(postsData);
                 Log.d("TAG","refresh " + postsData.size());
-            }
-        });
-    }
-
-    public static void getAllPosts(final Model.Listener<List<Post>> listener) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(POST_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Post> postsData = null;
-                if (task.isSuccessful()){
-                    postsData = new LinkedList<Post>();
-                    for(QueryDocumentSnapshot doc : task.getResult()){
-                        Post posts = doc.toObject(Post.class);
-                        postsData.add(posts);
-                    }
-                }
-                listener.onComplete(postsData);
             }
         });
     }

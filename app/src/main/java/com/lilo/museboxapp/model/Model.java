@@ -5,11 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import com.lilo.museboxapp.MuseBoxApplication;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Model {

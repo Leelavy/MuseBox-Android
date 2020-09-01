@@ -22,6 +22,17 @@
         tools:srcCompat="@drawable/backgroundfit"
         tools:visibility="visible" />
 
+    <ImageButton
+        android:id="@+id/register_activity_close_btn"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/register_activity_user_icon"
         android:layout_width="35dp"

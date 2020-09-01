@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class RegisterPageActivity extends AppCompatActivity {
     EditText emailInput;
     Button registerBtn;
     CircleImageView profileImageView;
+    ImageButton closeBtn;
 
     //Firebase
     FirebaseFirestore firebaseFirestore;
@@ -84,6 +86,14 @@ public class RegisterPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 registerUserAccount();
+            }
+        });
+
+        closeBtn = findViewById(R.id.register_activity_close_btn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RegisterPageActivity.this.finish();
             }
         });
     }

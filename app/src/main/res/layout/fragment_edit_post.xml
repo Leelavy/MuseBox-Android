@@ -107,6 +107,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_post_fragment_contact_edit_text" />
 
+    <ImageButton
+        android:id="@+id/edit_post_fragment_close_btn"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="#00146D95"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ProgressBar
         android:id="@+id/edit_post_fragment_progress_bar"
         style="?android:attr/progressBarStyle"

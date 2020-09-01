@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.lilo.museboxapp.activities.LoginPageActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 toLoginPage();
+                MainActivity.this.finish();
             }
         });
     }

@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class EditProfileFragment extends Fragment {
     EditText usernameInput;
     EditText infoInput;
     Button saveProfileBtn;
+    ImageButton closeBtn;
     ProgressBar progressBar;
 
     Uri profileImageUrl;
@@ -73,6 +75,15 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 chooseImageFromGallery();
+            }
+        });
+
+        closeBtn = view.findViewById(R.id.edit_profile_fragment_close_btn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navCtrl = Navigation.findNavController(view);
+                navCtrl.navigateUp();
             }
         });
 

@@ -89,7 +89,8 @@ public class FeedListFragment extends Fragment {
         liveData.observe(getViewLifecycleOwner(), new Observer<List<Post>>() {
             @Override
             public void onChanged(List<Post> posts) {
-                data = posts;
+                List<Post> reversedData = reverseData(posts);
+                data = reversedData;
                 adapter.notifyDataSetChanged();
             }
         });
@@ -108,6 +109,14 @@ public class FeedListFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private List<Post> reverseData(List<Post> posts) {
+        List<Post> reversedData = new LinkedList<>();
+        for (Post post: posts) {
+            reversedData.add(0, post);
+        }
+        return reversedData;
     }
 
     @Override
