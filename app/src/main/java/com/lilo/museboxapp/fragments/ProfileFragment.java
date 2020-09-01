@@ -1,8 +1,13 @@
 package com.lilo.museboxapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,13 +53,24 @@ public class ProfileFragment extends Fragment {
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //implement edit page fragment comes up
+                toEditProfilePage();
             }
         });
 
         Utils.animateBackground(backgroundImageView);
         setUserProfile();
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    private void toEditProfilePage() {
+        NavController navCtrl = Navigation.findNavController(getActivity(), R.id.home_nav_host);
+        NavDirections directions = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment();
+        navCtrl.navigate(directions);
     }
 
     public void setUserProfile(){

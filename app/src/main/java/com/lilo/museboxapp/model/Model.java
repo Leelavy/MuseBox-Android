@@ -4,12 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-
 import androidx.lifecycle.LiveData;
-
 import com.lilo.museboxapp.MuseBoxApplication;
-
-import java.util.LinkedList;
 import java.util.List;
 
 public class Model {
@@ -32,6 +28,18 @@ public class Model {
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.postDao().insertAllPosts(post);
+                return "";
+            }
+        }.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void deletePost(final Post post, Listener<Boolean> listener){
+        ModelFirebase.deletePost(post,listener);
+        new AsyncTask<String,String,String>(){
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.postDao().deletePost(post);
                 return "";
             }
         }.execute();
@@ -75,17 +83,17 @@ public class Model {
     }
 
 
-    public Post getPost(String id){
-
-        return null;
-    }
-
     public void update(Post post){
 
     }
 
-    public void delete(Post post){
-
+    public void updateUserProfile(String username, String info, String profileImgUrl, Listener<Boolean> listener) {
+        ModelFirebase.updateUserProfile(username, info, profileImgUrl, listener);
     }
+
+    public void setUserAppData(String email){
+        ModelFirebase.setUserAppData(email);
+    }
+
 
 }

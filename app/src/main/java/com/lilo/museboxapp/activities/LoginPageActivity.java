@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.lilo.museboxapp.R;
 import com.lilo.museboxapp.Utils;
+import com.lilo.museboxapp.model.Model;
 import com.lilo.museboxapp.model.Post;
 import com.lilo.museboxapp.model.User;
 
@@ -81,7 +82,7 @@ public class LoginPageActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     Toast.makeText(LoginPageActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
-                    setUserAppData(emailInput.getText().toString());
+                    Model.instance.setUserAppData(emailInput.getText().toString());
                     startActivity(new Intent(LoginPageActivity.this, HomeActivity.class));
                     LoginPageActivity.this.finish();
                 }
@@ -102,21 +103,7 @@ public class LoginPageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setUserAppData(final String email){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("userProfileData").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    User.getInstance().userUsername = (String) task.getResult().get("username");
-                    User.getInstance().profileImageUrl = (String) task.getResult().get("profileImageUrl");
-                    User.getInstance().userInfo = (String) task.getResult().get("info");
-                    User.getInstance().userEmail = email;
-                    User.getInstance().userId = firebaseAuth.getUid();
-                }
-            }
-        });
-    }
+
 
 }
 

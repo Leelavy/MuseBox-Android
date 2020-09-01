@@ -155,6 +155,8 @@ public class FeedListFragment extends Fragment {
                 postImg.setImageResource(R.drawable.profile_pic_placeholder);
                 userProfilePic.setImageResource(R.drawable.profile_pic_placeholder);
             }
+
+
         }
     }
 

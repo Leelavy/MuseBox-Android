@@ -12,9 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.lilo.museboxapp.R;
+import com.lilo.museboxapp.model.Model;
 import com.lilo.museboxapp.model.Post;
+import com.lilo.museboxapp.model.StoreModel;
+import com.lilo.museboxapp.model.User;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -22,11 +27,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PostDetailsFragment extends Fragment {
 
     Post post;
+    View view;
     TextView postTitle;
     TextView username;
     TextView postContent;
     TextView contact;
     ImageView postImg;
+    ImageButton closeBtn;
+    ImageButton editPostBtn;
+    ImageButton deletePostBtn;
     CircleImageView profilePic;
 
     public PostDetailsFragment() {
@@ -37,7 +46,7 @@ public class PostDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_post_details, container, false);
+        view = inflater.inflate(R.layout.fragment_post_details, container, false);
         postTitle = view.findViewById(R.id.post_details_fragment_title_text_view);
         username = view.findViewById(R.id.post_details_fragment_username_text_view);
         postContent = view.findViewById(R.id.post_details_fragment_post_content_text_view);
@@ -61,7 +70,7 @@ public class PostDetailsFragment extends Fragment {
             }
         }
 
-        ImageButton closeBtn = view.findViewById(R.id.post_details_fragment_close_btn);
+        closeBtn = view.findViewById(R.id.post_details_fragment_close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +78,44 @@ public class PostDetailsFragment extends Fragment {
                 navCtrl.popBackStack();
             }
         });
+
+        editPostBtn = view.findViewById(R.id.post_details_fragment_edit_btn);
+        editPostBtn.setVisibility(View.INVISIBLE);
+        deletePostBtn = view.findViewById(R.id.post_details_fragment_delete_btn);
+        deletePostBtn.setVisibility(View.INVISIBLE);
+
+        if (post.userId.equals(User.getInstance().userId)) {
+
+            editPostBtn.setVisibility(View.VISIBLE);
+            editPostBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "Edit button clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            deletePostBtn.setVisibility(View.VISIBLE);
+            deletePostBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deletePost(post);
+                    Toast.makeText(getContext(), "Delete button clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         return view;
+    }
+
+    void deletePost(Post postToDelete){
+
+        Model.instance.deletePost(postToDelete, new Model.Listener<Boolean>() {
+            @Override
+            public void onComplete(Boolean data) {
+                NavController navCtrl = Navigation.findNavController(view);
+                navCtrl.navigateUp();
+            }
+        });
     }
 
 }

@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 
 import com.lilo.museboxapp.MuseBoxApplication;
 
-@Database(entities = {Post.class}, version = 7)
+@Database(entities = {Post.class}, version = 8)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract PostDao postDao();
 }

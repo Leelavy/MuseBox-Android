@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -71,6 +73,18 @@ public class ModelFirebase {
         });
     }
 
+    public static void deletePost(Post post, final Model.Listener<Boolean> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(POST_COLLECTION).document(post.getPostId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (listener!=null){
+                    listener.onComplete(task.isSuccessful());
+                }
+            }
+        });
+    }
+
     private static Post factory(Map<String, Object> json){
         Post newPost = new Post();
         newPost.postId = (String) json.get("postId");
@@ -100,4 +114,45 @@ public class ModelFirebase {
         json.put("lastUpdated", FieldValue.serverTimestamp());
         return json;
     }
+
+    public static void updateUserProfile(String username, String info, String profileImgUrl, final Model.Listener<Boolean> listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> json = new HashMap<>();
+        if (username != null)
+            json.put("username", username);
+        else json.put("username", User.getInstance().userUsername);
+        if (info != null)
+            json.put("info", info);
+        else json.put("info", User.getInstance().userInfo);
+        if (profileImgUrl != null)
+            json.put("profileImageUrl", profileImgUrl);
+        else json.put("profileImageUrl", User.getInstance().profileImageUrl);
+        json.put("email", User.getInstance().userEmail);
+
+        db.collection("userProfileData").document(User.getInstance().userEmail).set(json).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (listener != null)
+                    listener.onComplete(task.isSuccessful());
+            }
+        });
+    }
+
+    public static void setUserAppData(final String email){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();;
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        db.collection("userProfileData").document(email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    User.getInstance().userUsername = (String) task.getResult().get("username");
+                    User.getInstance().profileImageUrl = (String) task.getResult().get("profileImageUrl");
+                    User.getInstance().userInfo = (String) task.getResult().get("info");
+                    User.getInstance().userEmail = email;
+                    User.getInstance().userId = firebaseAuth.getUid();
+                }
+            }
+        });
+    }
+
 }
