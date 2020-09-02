@@ -82,7 +82,10 @@ public class NewPostFragment extends Fragment {
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                savePost();
+                if (postImgUri != null && postTitleInput != null && postContentInput != null && contactInput != null)
+                    savePost();
+                else
+                    Toast.makeText(getContext(), "Please fill all fields and add a photo", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -100,27 +100,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/post_details_fragment_post_image_view" />
 
-    <TextView
-        android:id="@+id/post_details_fragment_contact_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Contact: 0524592013"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_details_fragment_post_content_text_view" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="228dp"
         android:layout_height="75dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_details_fragment_contact_text_view">
+        app:layout_constraintTop_toBottomOf="@+id/post_details_fragment_contact_btn">
 
         <ImageButton
             android:id="@+id/post_details_fragment_delete_btn"
@@ -144,5 +131,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/post_details_fragment_contact_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#3BBFBF"
+        android:text="Contact"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_details_fragment_post_content_text_view" />
+
+    <Button
+        android:id="@+id/post_details_fragment_comments_btn"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#3BBFBF"
+        android:text="Comments"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/post_details_fragment_contact_btn"
+        app:layout_constraintTop_toBottomOf="@+id/post_details_fragment_post_content_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

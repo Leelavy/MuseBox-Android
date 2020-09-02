@@ -16,7 +16,8 @@
             android:id="@+id/feed_list_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 </LinearLayout>
+
+

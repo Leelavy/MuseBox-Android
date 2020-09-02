@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +33,8 @@ public class PostDetailsFragment extends Fragment {
     TextView postTitle;
     TextView username;
     TextView postContent;
-    TextView contact;
+    Button contact;
+    Button comments;
     ImageView postImg;
     ImageButton closeBtn;
     ImageButton editPostBtn;
@@ -51,7 +53,8 @@ public class PostDetailsFragment extends Fragment {
         postTitle = view.findViewById(R.id.post_details_fragment_title_text_view);
         username = view.findViewById(R.id.post_details_fragment_username_text_view);
         postContent = view.findViewById(R.id.post_details_fragment_post_content_text_view);
-        contact = view.findViewById(R.id.post_details_fragment_contact_text_view);
+        contact = view.findViewById(R.id.post_details_fragment_contact_btn);
+        comments = view.findViewById(R.id.post_details_fragment_comments_btn);
         postImg = view.findViewById(R.id.post_details_fragment_post_image_view);
         profilePic = view.findViewById(R.id.post_details_fragment_profile_image_view);
 
@@ -60,7 +63,6 @@ public class PostDetailsFragment extends Fragment {
             postTitle.setText(post.postTitle);
             username.setText(post.username);
             postContent.setText(post.postContent);
-            contact.setText("Contact: " + post.contact);
             if (post.postImgUrl != null && post.userProfileImageUrl != null){
                 Picasso.get().load(post.postImgUrl).noPlaceholder().into(postImg);
                 Picasso.get().load(post.userProfileImageUrl).noPlaceholder().into(profilePic);
@@ -69,39 +71,55 @@ public class PostDetailsFragment extends Fragment {
                 postImg.setImageResource(R.drawable.profile_pic_placeholder);
                 profilePic.setImageResource(R.drawable.profile_pic_placeholder);
             }
-        }
 
-        closeBtn = view.findViewById(R.id.post_details_fragment_close_btn);
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController navCtrl = Navigation.findNavController(view);
-                navCtrl.popBackStack();
+            contact.setText("Contact " + post.username);
+            contact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ContactDialogFragment dialog = ContactDialogFragment.newInstance(post.username + "'s Contact Info", post.contact);
+                    dialog.show(getParentFragmentManager(),"TAG");
+                }
+            });
+
+            comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toCommentsPage(post);
+                }
+            });
+
+            closeBtn = view.findViewById(R.id.post_details_fragment_close_btn);
+            closeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NavController navCtrl = Navigation.findNavController(view);
+                    navCtrl.popBackStack();
+                }
+            });
+
+            editPostBtn = view.findViewById(R.id.post_details_fragment_edit_btn);
+            editPostBtn.setVisibility(View.INVISIBLE);
+            deletePostBtn = view.findViewById(R.id.post_details_fragment_delete_btn);
+            deletePostBtn.setVisibility(View.INVISIBLE);
+
+            if (post.userId.equals(User.getInstance().userId)) {
+
+                editPostBtn.setVisibility(View.VISIBLE);
+                editPostBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        toEditPostPage(post);
+                    }
+                });
+
+                deletePostBtn.setVisibility(View.VISIBLE);
+                deletePostBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deletePost(post);
+                    }
+                });
             }
-        });
-
-        editPostBtn = view.findViewById(R.id.post_details_fragment_edit_btn);
-        editPostBtn.setVisibility(View.INVISIBLE);
-        deletePostBtn = view.findViewById(R.id.post_details_fragment_delete_btn);
-        deletePostBtn.setVisibility(View.INVISIBLE);
-
-        if (post.userId.equals(User.getInstance().userId)) {
-
-            editPostBtn.setVisibility(View.VISIBLE);
-            editPostBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    toEditPostPage(post);
-                }
-            });
-
-            deletePostBtn.setVisibility(View.VISIBLE);
-            deletePostBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    deletePost(post);
-                }
-            });
         }
 
         return view;
@@ -110,6 +128,12 @@ public class PostDetailsFragment extends Fragment {
     private void toEditPostPage(Post post) {
         NavController navCtrl = Navigation.findNavController(getActivity(), R.id.home_nav_host);
         PostDetailsFragmentDirections.ActionPostDetailsFragmentToEditPostFragment directions = PostDetailsFragmentDirections.actionPostDetailsFragmentToEditPostFragment(post);
+        navCtrl.navigate(directions);
+    }
+
+    private void toCommentsPage(Post post){
+        NavController navCtrl = Navigation.findNavController(getActivity(), R.id.home_nav_host);
+        PostDetailsFragmentDirections.ActionPostDetailsFragmentToCommentListFragment directions = PostDetailsFragmentDirections.actionPostDetailsFragmentToCommentListFragment(post);
         navCtrl.navigate(directions);
     }
 

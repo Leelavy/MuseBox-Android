@@ -65,7 +65,6 @@ public class LoginPageActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFail() {
-                        Toast.makeText(LoginPageActivity.this, "Failed to login", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

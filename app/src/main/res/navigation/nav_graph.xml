@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_postDetailsFragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_postDetailsFragment_to_commentListFragment"
+            app:destination="@id/commentListFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
@@ -50,6 +53,15 @@
         android:name="com.lilo.museboxapp.fragments.EditPostFragment"
         android:label="fragment_edit_post"
         tools:layout="@layout/fragment_edit_post" >
+        <argument
+            android:name="post"
+            app:argType="com.lilo.museboxapp.model.Post" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentListFragment"
+        android:name="com.lilo.museboxapp.fragments.CommentsListFragment"
+        android:label="fragment_comment_list"
+        tools:layout="@layout/fragment_comment_list" >
         <argument
             android:name="post"
             app:argType="com.lilo.museboxapp.model.Post" />

@@ -24,6 +24,107 @@ public class Model {
     }
 
     @SuppressLint("StaticFieldLeak")
+    public void addComment(final Comment comment, Listener<Boolean> listener) {
+        ModelFirebase.addComment(comment,listener);
+        new AsyncTask<String,String,String>(){
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.commentDao().insertAllComments(comment);
+                return "";
+            }
+        }.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void editComment(final Comment comment, Listener<Boolean> listener) {
+        ModelFirebase.editComment(comment,listener);
+        new AsyncTask<String,String,String>(){
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.commentDao().insertAllComments(comment);
+                return "";
+            }
+        }.execute();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void deleteComment(final Comment comment, Listener<Boolean> listener){
+        ModelFirebase.deleteComment(comment,listener);
+        new AsyncTask<String,String,String>(){
+            @Override
+            protected String doInBackground(String... strings) {
+                AppLocalDb.db.commentDao().deleteComment(comment);
+                return "";
+            }
+        }.execute();
+    }
+
+    public void refreshCommentsList(String postId, final CompListener listener){
+        long lastUpdated = MuseBoxApplication.context.getSharedPreferences("TAG", Context.MODE_PRIVATE).getLong("CommentsLastUpdateDate",0);
+        ModelFirebase.getAllCommentsSince(lastUpdated, postId,new Listener<List<Comment>>() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onComplete(final List<Comment> data) {
+                new AsyncTask<String,String,String>(){
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        long lastUpdated = 0;
+                        for(Comment c: data){
+                            AppLocalDb.db.commentDao().insertAllComments(c);
+                            if (c.lastUpdated > lastUpdated)
+                                lastUpdated = c.lastUpdated;
+                        }
+                        SharedPreferences.Editor edit = MuseBoxApplication.context.getSharedPreferences("TAG", Context.MODE_PRIVATE).edit();
+                        edit.putLong("CommentsLastUpdateDate",lastUpdated);
+                        edit.commit();
+                        return "";
+                    }
+                    @Override
+                    protected void onPostExecute(String s) {
+                        super.onPostExecute(s);
+                        cleanLocalCommentDb();
+                        if (listener!=null)
+                            listener.onComplete();
+                    }
+                }.execute("");
+            }
+        });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void cleanLocalCommentDb(){
+        ModelFirebase.getDeletedCommentsId(new Listener<List<String>>() {
+            @Override
+            public void onComplete(final List<String> data) {
+                new AsyncTask<String,String,String>() {
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        for (String id: data){
+                            Log.d("TAG", "deleted id: " + id);
+                            AppLocalDb.db.commentDao().deleteByCommentId(id);
+                        }
+                        return "";
+                    }
+                }.execute("");
+            }
+        });
+    }
+
+    public LiveData<List<Comment>> getAllComments(){
+        LiveData<List<Comment>> liveData = AppLocalDb.db.commentDao().getAllComments();
+        refreshPostsList(null);
+        return liveData;
+    }
+
+    public LiveData<List<Comment>> getAllCommentsPerPost(String postId){
+        LiveData<List<Comment>> liveData = AppLocalDb.db.commentDao().getAllCommentsPerPost(postId);
+        refreshPostsList(null);
+        return liveData;
+    }
+
+    //----------------------------------------------------------------------------------------
+
+    @SuppressLint("StaticFieldLeak")
     public void addPost(final Post post, Listener<Boolean> listener) {
         ModelFirebase.addPost(post,listener);
         new AsyncTask<String,String,String>(){
@@ -42,6 +143,7 @@ public class Model {
             @Override
             protected String doInBackground(String... strings) {
                 AppLocalDb.db.postDao().deletePost(post);
+                AppLocalDb.db.commentDao().deleteAllCommentsByPostId(post.postId);
                 return "";
             }
         }.execute();

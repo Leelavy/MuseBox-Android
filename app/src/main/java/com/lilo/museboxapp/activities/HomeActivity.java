@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lilo.museboxapp.R;
+import com.lilo.museboxapp.fragments.CommentsListFragment;
 import com.lilo.museboxapp.fragments.FeedListFragment;
 import com.lilo.museboxapp.fragments.FeedListFragmentDirections;
 import com.lilo.museboxapp.model.Post;
