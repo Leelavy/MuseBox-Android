@@ -15,12 +15,10 @@ import android.widget.Toast;
 import com.lilo.museboxapp.R;
 import com.lilo.museboxapp.Utils;
 import com.lilo.museboxapp.model.ModelFirebase;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisterPageActivity extends AppCompatActivity {
 
-    //views
     ImageView backgroundImageView;
     EditText usernameInput;
     EditText passwordInput;
@@ -29,8 +27,6 @@ public class RegisterPageActivity extends AppCompatActivity {
     CircleImageView profileImageView;
     ProgressBar progressBar;
     ImageButton closeBtn;
-
-    //for gallery image
     Uri profileImageUri = null;
 
     @Override

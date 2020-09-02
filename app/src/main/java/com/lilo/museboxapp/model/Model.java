@@ -122,8 +122,6 @@ public class Model {
         return liveData;
     }
 
-    //----------------------------------------------------------------------------------------
-
     @SuppressLint("StaticFieldLeak")
     public void addPost(final Post post, Listener<Boolean> listener) {
         ModelFirebase.addPost(post,listener);

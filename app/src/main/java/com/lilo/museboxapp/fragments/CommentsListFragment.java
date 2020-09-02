@@ -3,46 +3,32 @@ package com.lilo.museboxapp.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.lilo.museboxapp.MuseBoxApplication;
 import com.lilo.museboxapp.R;
 import com.lilo.museboxapp.model.Comment;
 import com.lilo.museboxapp.model.Model;
 import com.lilo.museboxapp.model.Post;
-import com.lilo.museboxapp.model.StoreModel;
 import com.lilo.museboxapp.model.User;
 import com.squareup.picasso.Picasso;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentsListFragment extends Fragment {

@@ -1,11 +1,9 @@
 package com.lilo.museboxapp.fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +11,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.lilo.museboxapp.R;
 import com.lilo.museboxapp.model.Model;
-import com.lilo.museboxapp.model.ModelFirebase;
 import com.lilo.museboxapp.model.Post;
 import com.lilo.museboxapp.model.StoreModel;
 import com.lilo.museboxapp.model.User;
 import com.squareup.picasso.Picasso;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostDetailsFragment extends Fragment {

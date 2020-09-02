@@ -50,7 +50,6 @@ public class EditProfileFragment extends Fragment {
     Button saveProfileBtn;
     ImageButton closeBtn;
     ProgressBar progressBar;
-
     Uri profileImageUrl;
     Bitmap postImgBitmap;
     static int REQUEST_CODE = 1;

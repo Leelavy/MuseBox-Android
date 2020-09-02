@@ -6,8 +6,6 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.navigation.NavOptions;
-
 public class Utils {
 
     static int REQUEST_CODE = 1;

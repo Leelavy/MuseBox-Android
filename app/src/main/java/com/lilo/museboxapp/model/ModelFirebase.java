@@ -164,8 +164,6 @@ public class ModelFirebase {
         }
     }
 
-    //----------------------------------------------------------------------------------------
-
     public static void getAllCommentsSince(long since, String postId,final Model.Listener<List<Comment>> listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Timestamp ts = new Timestamp(since,0);

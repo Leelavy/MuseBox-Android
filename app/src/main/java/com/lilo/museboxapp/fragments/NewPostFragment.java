@@ -39,7 +39,6 @@ import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
-
 public class NewPostFragment extends Fragment {
 
     View view;
@@ -48,8 +47,6 @@ public class NewPostFragment extends Fragment {
     EditText postContentInput;
     EditText contactInput;
     ImageView postImageView;
-
-    //for opening gallery
     Uri postImgUri;
     Bitmap postImgBitmap;
     static int REQUEST_CODE = 1;
