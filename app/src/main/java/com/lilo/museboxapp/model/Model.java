@@ -19,6 +19,7 @@ public class Model {
     public interface CompListener{
         void onComplete();
     }
+
     private Model(){
     }
 

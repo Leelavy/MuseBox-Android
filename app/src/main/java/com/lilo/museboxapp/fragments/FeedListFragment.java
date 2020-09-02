@@ -2,7 +2,6 @@ package com.lilo.museboxapp.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -11,24 +10,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.lilo.museboxapp.R;
-import com.lilo.museboxapp.model.ModelFirebase;
 import com.lilo.museboxapp.model.Post;
 import com.lilo.museboxapp.model.Model;
 import com.squareup.picasso.Picasso;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedListFragment extends Fragment {
@@ -79,7 +72,6 @@ public class FeedListFragment extends Fragment {
         adapter.setOnClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-                Log.d("TAG", "Row was clicked" + position);
                 Post post = data.get(position);
                 parent.onItemSelected(post);
             }
@@ -131,6 +123,7 @@ public class FeedListFragment extends Fragment {
         ImageView postImg;
         TextView username;
         CircleImageView userProfilePic;
+        ProgressBar progressBar;
         Post post;
 
         public PostRowViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -139,7 +132,7 @@ public class FeedListFragment extends Fragment {
             postImg = itemView.findViewById(R.id.row_post_image_view);
             username = itemView.findViewById(R.id.row_username_text_view);
             userProfilePic = itemView.findViewById(R.id.row_profile_image_view);
-
+            progressBar = itemView.findViewById(R.id.row_post_progress_bar);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,8 +158,6 @@ public class FeedListFragment extends Fragment {
                 postImg.setImageResource(R.drawable.profile_pic_placeholder);
                 userProfilePic.setImageResource(R.drawable.profile_pic_placeholder);
             }
-
-
         }
     }
 
